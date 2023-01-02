@@ -1,30 +1,48 @@
-const moviesServices = require('../services/movie.services')
+const moviesServices = require("../services/movie.service.js");
 
-// Get all movies 
-async function get(req, res, next){
-    try{
-        res.json(await moviesServices.getmovies());
-    } catch(err) {
-        console.error('Error while geting accounts')
-        next(err);
-    }
+// Get all movies
+async function get(req, res, next) {
+  try {
+    res.json(await moviesServices.getMovies());
+  } catch (err) {
+    console.error("Error while geting accounts");
+    next(err);
+  }
 }
 
-// Get a movie 
-async function getmovieById(req, res, next){
-    try{
-        res.json(await moviesServices.getmoviesById(req.body));
-    } catch(err) {
-        console.error('Error while getting an account')
-        next(err);
-    }
+// Get a movie
+async function getMovieByType(req, res, next) {
+  try {
+    res.json(await moviesServices.getMovieByType(req.body));
+  } catch (err) {
+    console.error("Error while getting an account");
+    next(err);
+  }
+}
+
+async function getMovieByGenre(req, res, next) {
+  try {
+    res.json(await moviesServices.getMovieByGenre(req.body));
+  } catch (err) {
+    console.error("Error while getting an account");
+    next(err);
+  }
+}
+async function getMovieByKeyword(req, res, next) {
+  try {
+    res.json(await moviesServices.getMovieByKeyword(req.body));
+  } catch (err) {
+    console.error("Error while getting an account");
+    next(err);
+  }
 }
 
 module.exports = {
-    get,
-    getmovieById,
-    // signUp,
-    // logIn,
-    // update,
-    // remove,
-}
+  get,
+  getMovieByType,
+  getMovieByGenre,
+  getMovieByKeyword,
+  // logIn,
+  // update,
+  // remove,
+};
