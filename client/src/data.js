@@ -1,4 +1,4 @@
-export default [
+const data = [
   {
     adult: false,
     backdrop_path: '/mSyQoValhBsJdq3JNGXJww2Q5yL.jpg',
@@ -126,3 +126,4 @@ export default [
     origin_country: ['DK'],
   },
 ];
+export default data;
