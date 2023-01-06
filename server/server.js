@@ -5,10 +5,8 @@ const PORT = process.env.PORT || 3001;
 const dotenv = require('dotenv');
 const app = express();
 
-const {auth} = require('express-openid-connect'); // express-open-id connect package
+const { auth, requiresAuth } = require('express-openid-connect'); // express-open-id connect package
 const router = require('express').Router();
-const { requiresAuth } = require('express-openid-connect');
-
 
 // Find .env file in our project using find-config package
 dotenv.config({ path: require('find-config')('.env') });
@@ -21,12 +19,10 @@ app.use(
   })
 );
 
-
 const config = {
   authRequired: false,
-  auth0Logout: true
+  auth0Logout: true,
 };
-
 
 // router.get('/', function (req, res, next) {
 //   res.render('index', {
@@ -38,11 +34,10 @@ const config = {
 router.get('/', function (req, res, next) {
   const isAuthenticated = req.oidc.isAuthenticated();
   var message;
-  if(isAuthenticated){
-    message = "You are logged in";
-  }
-  else{
-    message = "You are not logged in";
+  if (isAuthenticated) {
+    message = 'You are logged in';
+  } else {
+    message = 'You are not logged in';
   }
   res.send(message);
 });
@@ -54,7 +49,16 @@ router.get('/', function (req, res, next) {
 //   });
 // });
 
-// app.use(auth(config));
+if (
+  !config.baseURL &&
+  !process.env.BASE_URL &&
+  process.env.PORT &&
+  process.env.NODE_ENV !== 'production'
+) {
+  config.baseURL = `http://localhost:${PORT}`;
+}
+
+app.use(auth(config));
 
 // Middleware to make the `user` object available for all views
 // app.use(function(req,res,next){
@@ -62,9 +66,7 @@ router.get('/', function (req, res, next) {
 //   next();
 // });
 
-app.use('/',router);
-
-
+app.use('/', router);
 
 //Routes
 // app.get('/', (req, res) => {
