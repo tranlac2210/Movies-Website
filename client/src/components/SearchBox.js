@@ -1,9 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 const SearchBox = () => {
   return (
-    <div>SearchBox</div>
-  )
-}
+    <div>
+      <input type='text' placeholder='search by keywords...' />
+    </div>
+  );
+};
 
-export default SearchBox
+export default SearchBox;
