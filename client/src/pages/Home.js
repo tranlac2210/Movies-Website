@@ -7,7 +7,7 @@ const Home = () => {
   useEffect(() => {
     setMyData(data);
   }, []);
-  //   console.log('🚀 ~ file: Home.js:7 ~ Home ~ myData', myData);
+  
   return (
     <div>
       {myData.map((data, index) => {
