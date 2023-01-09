@@ -5,8 +5,8 @@ import { SearchBox } from './components';
 function App() {
   return (
     <div className='App'>
-      {/* <Home /> */}
-      <SearchBox />
+      <Home />
+      {/* <SearchBox /> */}
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>

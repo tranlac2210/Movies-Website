@@ -60,21 +60,15 @@ if (
 
 app.use(auth(config));
 
-// Middleware to make the `user` object available for all views
-// app.use(function(req,res,next){
-//   res.locals.user = req.oidc.user;
-//   next();
-// });
-
 app.use('/', router);
-
-//Routes
-// app.get('/', (req, res) => {
-//   res.json({ message: 'Hello from server!' });
-// });
 
 // app.use(Router)
 app.use('/movies', moviesRouter);
+
+// create a GET route
+app.get('/movies', (req, res) => {
+  res.json({ express: 'EXPRESS BACKEND IS CONNECTED TO REACT' });
+});
 
 // Server
 app.listen(PORT, () => {
