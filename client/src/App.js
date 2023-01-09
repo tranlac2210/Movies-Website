@@ -1,7 +1,7 @@
-import "./App.css";
-import { Home } from "./pages";
-import { SearchBox } from "./components";
-import { GerneContainer } from "./components";
+import './App.css';
+import { Home } from './pages';
+import { SearchBox } from './components';
+import { GerneContainer } from './components';
 
 function App() {
   return (
