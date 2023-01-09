@@ -1,9 +1,33 @@
-import React from 'react'
+import React, { useState } from "react";
+import Genres from "../genres-data";
+import { useEffect } from "react";
+import Chip from "@material-ui/ore/Chip";
 
-const Gerne = () => {
+function Genre() {
+  const [myGenre, setGenre] = useState([]);
+  useEffect(() => {
+    setGenre(Genres);
+  }, []);
   return (
-    <div>Gerne</div>
-  )
-}
+    <div>
+      {
+        myGenre.map((data, index) => {
+          const { name } = data;
+          return (
+              <p>{name}</p>
+          );
+        })
 
-export default Gerne
+        /* {myGenre.map((data, index) => {
+        const { name } = data;
+        return (
+          <div>
+            {name}
+          </div>
+        );
+      })} */
+      }
+    </div>
+  );
+}
+export default Genre;

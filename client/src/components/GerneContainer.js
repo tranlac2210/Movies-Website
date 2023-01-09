@@ -1,10 +1,3 @@
-import React from 'react'
-import Gerne from './Gerne'
+import Gerne from "./Gerne";
 
-const GerneContainer = () => {
-  return (
-    <div>GerneContainer</div>
-  )
-}
-
-export default GerneContainer
+export default Gerne;

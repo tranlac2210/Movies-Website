@@ -1,12 +1,14 @@
-import './App.css';
-import { Home } from './pages';
-import { SearchBox } from './components';
+import "./App.css";
+import { Home } from "./pages";
+import { SearchBox } from "./components";
+import { GerneContainer } from "./components";
 
 function App() {
   return (
-    <div className='App'>
-      {/* <Home /> */}
-      <SearchBox />
+    <div className="App">
+      {/* <Home />
+      <SearchBox /> */}
+      <GerneContainer />
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
