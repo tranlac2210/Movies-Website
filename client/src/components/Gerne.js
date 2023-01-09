@@ -1,33 +1,6 @@
-import React, { useState } from "react";
-import Genres from "../genres-data";
-import { useEffect } from "react";
-import Chip from "@material-ui/ore/Chip";
+import { Chip } from '@mui/material';
 
-function Genre() {
-  const [myGenre, setGenre] = useState([]);
-  useEffect(() => {
-    setGenre(Genres);
-  }, []);
-  return (
-    <div>
-      {
-        myGenre.map((data, index) => {
-          const { name } = data;
-          return (
-              <p>{name}</p>
-          );
-        })
-
-        /* {myGenre.map((data, index) => {
-        const { name } = data;
-        return (
-          <div>
-            {name}
-          </div>
-        );
-      })} */
-      }
-    </div>
-  );
+function Genre({ name }) {
+  return <Chip label={name} />;
 }
 export default Genre;

@@ -1,24 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import data from '../data';
+// import data from '../data';
 // import { getTrending } from '../../../server/src/services/movie.service';
 
 const Home = () => {
-  const [tredingMovie_API_Content, setTrendingMoive_API_Content] = useState([{}])
+  const [tredingMovie_API_Content, setTrendingMoive_API_Content] = useState([
+    {},
+  ]);
 
   useEffect(() => {
     fetch('/movies/trending')
-      .then(res => res.json())
-      .then(data => setTrendingMoive_API_Content(data))
-    
-    console.log(data)
-  }, [])
+      .then((res) => res.json())
+      .then((data) => setTrendingMoive_API_Content(data.results));
 
-  return (
-    <div>
-      
-    </div>
-  )
+    console.log(tredingMovie_API_Content);
+  }, []);
 
+  return <div></div>;
 };
 
 export default Home;
@@ -28,7 +25,7 @@ export default Home;
 //   useEffect(() => {
 //     setMyData(data);
 //   }, []);
-  
+
 //   return (
 //     <div>
 //       {myData.map((data) => {
@@ -50,14 +47,14 @@ export default Home;
 // import React, { Component } from 'react';
 
 // class Movies extends Component {
-  
+
 //   constructor(props){
 //     super(props);
 //     this.state = {
 //       movies: {}
 //     }
 //   }
-  
+
 //   componentDidMount() {
 //     fetch('/movies/trending')
 //       .then(res => res.json())
