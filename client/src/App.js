@@ -5,7 +5,7 @@ import { GerneContainer } from './components';
 
 function App() {
   return (
-    <div className='App'>
+    <div className="App">
       <Home />
       <SearchBox />
       <GerneContainer />
