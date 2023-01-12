@@ -1,15 +1,15 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const moviesRouter = require('./src/routes/movie.route');
+const express = require("express");
+const bodyParser = require("body-parser");
+const moviesRouter = require("./src/routes/movie.route");
 const PORT = process.env.PORT || 3001;
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 const app = express();
 
-const { auth, requiresAuth } = require('express-openid-connect'); // express-open-id connect package
-const router = require('express').Router();
+const { auth, requiresAuth } = require("express-openid-connect"); // express-open-id connect package
+const router = require("express").Router();
 
 // Find .env file in our project using find-config package
-dotenv.config({ path: require('find-config')('.env') });
+dotenv.config({ path: require("find-config")(".env") });
 
 // Body Parser
 app.use(bodyParser.json());
@@ -31,13 +31,13 @@ const config = {
 //   });
 // });
 
-router.get('/', function (req, res, next) {
+router.get("/", function (req, res, next) {
   const isAuthenticated = req.oidc.isAuthenticated();
   var message;
   if (isAuthenticated) {
-    message = 'You are logged in';
+    message = "You are logged in";
   } else {
-    message = 'You are not logged in';
+    message = "You are not logged in";
   }
   res.send(message);
 });
@@ -53,21 +53,21 @@ if (
   !config.baseURL &&
   !process.env.BASE_URL &&
   process.env.PORT &&
-  process.env.NODE_ENV !== 'production'
+  process.env.NODE_ENV !== "production"
 ) {
   config.baseURL = `http://localhost:${PORT}`;
 }
 
 app.use(auth(config));
 
-app.use('/', router);
+app.use("/", router);
 
 // app.use(Router)
-app.use('/movies', moviesRouter);
+app.use("/movies", moviesRouter);
 
 // create a GET route
-app.get('/movies', (req, res) => {
-  res.json({ express: 'EXPRESS BACKEND IS CONNECTED TO REACT' });
+app.get("/movies", (req, res) => {
+  res.json({ express: "EXPRESS BACKEND IS CONNECTED TO REACT" });
 });
 
 // Server
