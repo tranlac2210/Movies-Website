@@ -1,42 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import data from "../data";
+//import data from "../data";
 import SearchButton from "./SearchButton";
 import { BiSearchAlt } from "react-icons/bi";
+import axios from "axios";
 
 const SearchBox = () => {
-  const [title, setTitle] = useState("");
-  console.log(data.filter((movie) => movie.title.include("ava")));
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (title) {
-      data(title);
-    }
+  // const [search, setSearch] = useState('');
+  const [data1, setData1] = useState([]);
+
+  const HandleSubmit = (e) => {
+    useEffect(() => {
+      const fetchMovies = async () => {
+        const res = await axios.get(`http://localhost:3001/key-word`);
+        //const res = await axios.get(`/movies/key-word?q=${search}`);
+        setData1(res.data);
+      };
+      fetchMovies();
+    });
   };
-  console.log(title);
+
   return (
     <>
       <Wrapper className="section-center">
-        <form action="" onSubmit={handleSubmit}>
+        <form action="" onSubmit={HandleSubmit}>
           <div className="form-control">
             <BiSearchAlt />
             <input
               type="text"
               placeholder="Search ..."
               className="searchBox"
-              onChange={(e) => setTitle(e.target.value)}
+              // onChange={(e) => setSearch(e.target.value)}
             />
             <SearchButton></SearchButton>
           </div>
         </form>
       </Wrapper>
-      <ul className="listFilm">
-        {data.map((movie) => (
-          <li key={movie.id} className="movie">
-            {movie.name || movie.title}
-          </li>
-        ))}
-      </ul>
+      {data1.map((movie) => (
+        <div key={movie.id} className="movie">
+          {movie.name || movie.title}
+        </div>
+      ))}
     </>
   );
 };
