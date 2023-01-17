@@ -1,22 +1,22 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const moviesRouter = require("./src/routes/movie.route");
+const express = require('express');
+const bodyParser = require('body-parser');
+const moviesRouter = require('./src/routes/movie.route');
 const PORT = process.env.PORT || 3001;
-const dotenv = require("dotenv");
+const dotenv = require('dotenv');
 const app = express();
 
-const { auth, requiresAuth } = require("express-openid-connect"); // express-open-id connect package
-const router = require("express").Router();
+const { auth, requiresAuth } = require('express-openid-connect'); // express-open-id connect package
+const router = require('express').Router();
 
 // code by Bo
-const cors = require("cors");
-const moviesController = require("./src/controllers/movie.controller");
+// const cors = require('cors');
+const moviesController = require('./src/controllers/movie.controller');
 //const movieServices = require("./src/services/movie.service");
-app.use(cors());
+// app.use(cors());
 //end code by Bo
 
 // Find .env file in our project using find-config package
-dotenv.config({ path: require("find-config")(".env") });
+dotenv.config({ path: require('find-config')('.env') });
 
 // Body Parser
 app.use(bodyParser.json());
@@ -38,13 +38,13 @@ const config = {
 //   });
 // });
 
-router.get("/", function (req, res, next) {
+router.get('/', function (req, res, next) {
   const isAuthenticated = req.oidc.isAuthenticated();
   var message;
   if (isAuthenticated) {
-    message = "You are logged in";
+    message = 'You are logged in';
   } else {
-    message = "You are not logged in";
+    message = 'You are not logged in';
   }
   res.send(message);
 });
@@ -60,37 +60,37 @@ if (
   !config.baseURL &&
   !process.env.BASE_URL &&
   process.env.PORT &&
-  process.env.NODE_ENV !== "production"
+  process.env.NODE_ENV !== 'production'
 ) {
   config.baseURL = `http://localhost:${PORT}`;
 }
 
 app.use(auth(config));
 
-app.use("/", router);
+app.use('/', router);
 
 // app.use(Router)
-app.use("/movies", moviesRouter);
+app.use('/movies', moviesRouter);
 
 // create a GET route
-app.get("/movies", (req, res) => {
-  res.json({ express: "EXPRESS BACKEND IS CONNECTED TO REACT" });
+app.get('/movies', (req, res) => {
+  res.json({ express: 'EXPRESS BACKEND IS CONNECTED TO REACT' });
 });
 
 //code by Bo
-app.get("/key-word", (req, res) => {
-  const { q } = req.query;
-  console.log("q");
-  //res.json(moviesController.getMovieByKeyword(q));
+// app.get('/key-word', (req, res) => {
+//   const { q } = req.query;
+//   console.log('q');
+//   //res.json(moviesController.getMovieByKeyword(q));
 
-  // const search = (data1) => {
-  //   return data1.filter((movie) => {
-  //     let title = movie.title || movie.name;
-  //     return title.toLowerCase().includes(q);
-  //   });
-  // };
-  //res.json(search(data1).splice(0,5));
-});
+//   // const search = (data1) => {
+//   //   return data1.filter((movie) => {
+//   //     let title = movie.title || movie.name;
+//   //     return title.toLowerCase().includes(q);
+//   //   });
+//   // };
+//   //res.json(search(data1).splice(0,5));
+// });
 //end code by Bo
 
 // Server

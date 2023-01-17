@@ -1,9 +1,14 @@
-import React from "react";
+import React from 'react';
 
-const SearchButton = () => {
+const SearchButton = ({ keyWord }) => {
   return (
     <div>
-      <button type="submit">Search</button>
+      <button
+        className={`${keyWord ? '' : 'disable-search-button'}`}
+        type='submit'
+      >
+        Search
+      </button>
     </div>
   );
 };
