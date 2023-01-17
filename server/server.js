@@ -8,6 +8,13 @@ const app = express();
 const { auth, requiresAuth } = require("express-openid-connect"); // express-open-id connect package
 const router = require("express").Router();
 
+// code by Bo
+const cors = require("cors");
+const moviesController = require("./src/controllers/movie.controller");
+//const movieServices = require("./src/services/movie.service");
+app.use(cors());
+//end code by Bo
+
 // Find .env file in our project using find-config package
 dotenv.config({ path: require("find-config")(".env") });
 
@@ -69,6 +76,22 @@ app.use("/movies", moviesRouter);
 app.get("/movies", (req, res) => {
   res.json({ express: "EXPRESS BACKEND IS CONNECTED TO REACT" });
 });
+
+//code by Bo
+app.get("/key-word", (req, res) => {
+  const { q } = req.query;
+  console.log("q");
+  //res.json(moviesController.getMovieByKeyword(q));
+
+  // const search = (data1) => {
+  //   return data1.filter((movie) => {
+  //     let title = movie.title || movie.name;
+  //     return title.toLowerCase().includes(q);
+  //   });
+  // };
+  //res.json(search(data1).splice(0,5));
+});
+//end code by Bo
 
 // Server
 app.listen(PORT, () => {
