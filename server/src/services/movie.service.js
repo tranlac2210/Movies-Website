@@ -33,9 +33,9 @@ async function getMovieByGenre(data) {
 //Search movies by keyword
 async function getMovieByKeyword(data) {
   // TEST URL: http://localhost:3001/movies/key-word?keyWord=avatar
-  const { keyWord } = data;
+  const { keyWord, page } = data;
   const movies = await axios.get(
-    `https://api.themoviedb.org/3/search/movie?api_key=${process.env.API_KEY}&language=en-US&query=${keyWord}&page=1&include_adult=falsee`
+    `https://api.themoviedb.org/3/search/movie?api_key=${process.env.API_KEY}&language=en-US&query=${keyWord}&page=${page}&include_adult=falsee`
   );
   try {
     return movies.data;

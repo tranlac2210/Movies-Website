@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 // import data from '../data';
 // import { getTrending } from '../../../server/src/services/movie.service';
 
@@ -7,12 +8,21 @@ const Home = () => {
     {},
   ]);
 
-  useEffect(() => {
-    fetch('/movies/trending')
-      .then((res) => res.json())
-      .then((data) => setTrendingMoive_API_Content(data.results));
+  // useEffect(() => {
+  //   fetch('/movies/trending')
+  //     .then((res) => res.json())
+  //     .then((data) => setTrendingMoive_API_Content(data.results));
 
-    console.log(tredingMovie_API_Content);
+  //   console.log(tredingMovie_API_Content);
+  // }, []);
+
+  const fetchTrendingMovies = async () => {
+    const res = await axios.get(`/movies/trending`);
+    // console.log('🚀 ~ file: Home.js:21 ~ fetchTrendingMovies ~ res', res);
+  };
+
+  useEffect(() => {
+    fetchTrendingMovies();
   }, []);
 
   return <div></div>;

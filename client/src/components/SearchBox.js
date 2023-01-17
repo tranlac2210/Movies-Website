@@ -1,43 +1,53 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 //import data from "../data";
-import SearchButton from "./SearchButton";
-import { BiSearchAlt } from "react-icons/bi";
-import axios from "axios";
+import SearchButton from './SearchButton';
+import { BiSearchAlt } from 'react-icons/bi';
+import axios from 'axios';
 
 const SearchBox = () => {
-  // const [search, setSearch] = useState('');
-  const [data1, setData1] = useState([]);
+  const [keyWord, setKeyWord] = useState('');
+  const [searchMoviesResult, setSearchMoviesResult] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalResults, setTotalResults] = useState(0);
+
+  const updateKeyWord = (e) => {
+    const currentKeyWord = e.target.value;
+    setKeyWord(currentKeyWord);
+  };
+
+  const fetchMovies = async (keyWord) => {
+    const res = await axios.get(
+      `/movies/key-word?keyWord=${keyWord}&page=${currentPage}`
+    );
+    setSearchMoviesResult(res.data.results);
+    setCurrentPage(res.data.page);
+  };
 
   const HandleSubmit = (e) => {
-    useEffect(() => {
-      const fetchMovies = async () => {
-        const res = await axios.get(`http://localhost:3001/key-word`);
-        //const res = await axios.get(`/movies/key-word?q=${search}`);
-        setData1(res.data);
-      };
-      fetchMovies();
-    });
+    e.preventDefault();
+    fetchMovies(keyWord);
   };
 
   return (
     <>
-      <Wrapper className="section-center">
-        <form action="" onSubmit={HandleSubmit}>
-          <div className="form-control">
+      <Wrapper className='section-center'>
+        <form onSubmit={HandleSubmit}>
+          <div className='form-control'>
             <BiSearchAlt />
             <input
-              type="text"
-              placeholder="Search ..."
-              className="searchBox"
-              // onChange={(e) => setSearch(e.target.value)}
+              type='text'
+              placeholder='Search ...'
+              className='searchBox'
+              onChange={updateKeyWord}
             />
-            <SearchButton></SearchButton>
+            <SearchButton keyWord={keyWord} />
           </div>
         </form>
       </Wrapper>
-      {data1.map((movie) => (
-        <div key={movie.id} className="movie">
+      {searchMoviesResult.map((movie) => (
+        <div key={movie.id} className='movie'>
           {movie.name || movie.title}
         </div>
       ))}
@@ -48,6 +58,7 @@ const SearchBox = () => {
 const Wrapper = styled.div`
   position: relative;
   display: grid;
+  padding-top: 0.5rem;
   gap: 1rem 1.75rem;
   @media (min-width: 768px) {
     grid-template-columns: 1fr max-content;
@@ -111,6 +122,11 @@ const Wrapper = styled.div`
     margin-bottom: 0;
     color: var(--clr-grey-5);
     font-weight: 400;
+  }
+
+  .disable-search-button {
+    pointer-events: none;
+    opacity: 0.4;
   }
 `;
 
