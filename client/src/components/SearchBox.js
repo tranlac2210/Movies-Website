@@ -1,12 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 //import data from "../data";
-import SearchButton from './SearchButton';
-import { BiSearchAlt } from 'react-icons/bi';
-import axios from 'axios';
+import SearchButton from "./SearchButton";
+import { BiSearchAlt } from "react-icons/bi";
+import axios from "axios";
+
+//pagination
+import Pagination from "./pagination";
+//end pagination
 
 const SearchBox = () => {
-  const [keyWord, setKeyWord] = useState('');
+  const [keyWord, setKeyWord] = useState("");
+  const [currentKeyWord, setCurrentKeyWord] = useState("");
   const [searchMoviesResult, setSearchMoviesResult] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -22,35 +27,103 @@ const SearchBox = () => {
       `/movies/key-word?keyWord=${keyWord}&page=${currentPage}`
     );
     setSearchMoviesResult(res.data.results);
-    setCurrentPage(res.data.page);
+    //setCurrentPage(res.data.page);
+    setTotalPages(res.data.total_pages);
+    setTotalResults(res.data.total_results);
   };
 
   const HandleSubmit = (e) => {
     e.preventDefault();
+    setCurrentKeyWord(keyWord);
+    setCurrentPage(1);
     fetchMovies(keyWord);
   };
 
+  // Change page
+  const Paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  useEffect(() => {
+    fetchMovies(currentKeyWord);
+  }, [currentPage]);
+  //end change page
+
+  //reset button (clearSearch)
+  const resetSearch = async () => {
+    //const res = await axios.get(`/movies/trending`);
+    setSearchMoviesResult([]);
+    setKeyWord("");
+    setCurrentKeyWord("");
+    setTotalPages(0);
+    setTotalResults(0);
+  };
+  //end reset button
+
+  //condition for <<,<,>,>>
+  const checkTotalPages = () => {
+    if (keyWord !== "" && totalPages !== 0) {
+      return (
+        <>
+          <Pagination
+            totalPages={totalPages}
+            paginate={Paginate}
+            currentPagePag={currentPage}
+          />
+        </>
+      );
+    }
+  };
+  //end condition
+
+  //condition for notes (search keyword,search result)
+  const checkNotes = () => {
+    if (keyWord !== "" && totalPages !== 0) {
+      return (
+        <Notes>
+          <div className="notes">
+            <small> Search keyword: {keyWord}, </small>
+            <small>total results: {totalResults}</small>
+          </div>
+        </Notes>
+      );
+    }
+  };
+  //end condition
+
+  //end change Page
+
   return (
     <>
-      <Wrapper className='section-center'>
+      <Wrapper className="section-center">
         <form onSubmit={HandleSubmit}>
-          <div className='form-control'>
+          <div className="form-control">
             <BiSearchAlt />
             <input
-              type='text'
-              placeholder='Search ...'
-              className='searchBox'
+              type="text"
+              placeholder="Search ..."
+              className="searchBox"
               onChange={updateKeyWord}
+              value = {keyWord}
             />
             <SearchButton keyWord={keyWord} />
+            <button
+              onClick={resetSearch}
+              className={`${keyWord ? "" : "disable-search-button"}`}
+            >
+              Clear Search
+            </button>
           </div>
         </form>
       </Wrapper>
+      {checkNotes()}
+      <div />
       {searchMoviesResult.map((movie) => (
-        <div key={movie.id} className='movie'>
+        <div key={movie.id} className="movie">
           {movie.name || movie.title}
         </div>
       ))}
+      {checkTotalPages()}
     </>
   );
 };
@@ -120,13 +193,19 @@ const Wrapper = styled.div`
   }
   h3 {
     margin-bottom: 0;
-    color: var(--clr-grey-5);
+    //color: var(--clr-grey-5);
     font-weight: 400;
   }
 
   .disable-search-button {
     pointer-events: none;
     opacity: 0.4;
+  }
+`;
+
+const Notes = styled.div`
+  .notes {
+    text-align: left;
   }
 `;
 
