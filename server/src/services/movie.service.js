@@ -19,10 +19,10 @@ async function getMovieByGenre(data) {
   // NOTE: genre(s) should be an array of genre ids (e.x [1, 2, 3])
   // const test = [878, 53];
   // TEST URL: http://localhost:3001/movies/movie-genre?gernes[]=878&gernes[]=53
-  let { gernes } = data;
+  let { gernes,page } = data;
   gernes = gernes.map(Number);
   const movies = await axios.get(
-    `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${gernes}&with_watch_monetization_types=flatrate`
+    `https://api.themoviedb.org/3/discover/tv?api_key=${process.env.API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_genres=${gernes}`
   );
   try {
     return movies.data;
@@ -60,9 +60,27 @@ async function getByType(data) {
   }
 }
 
+async function getGenre(data) {
+  // TEST URL: http://localhost:3001/movies/get-type?type=movie
+  // TEST URL: http://localhost:3001/movies/get-type?type=tv
+  const { type } = data;
+  const movies = await axios.get(
+    `https://api.themoviedb.org/3/genre/${type}/list?api_key=${process.env.API_KEY}&language=en-US`
+  );
+  console.log(type);
+  try {
+    return movies.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
+
 module.exports = {
   getTrending,
   getByType,
   getMovieByGenre,
   getMovieByKeyword,
+  getGenre,
 };

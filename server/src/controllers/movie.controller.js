@@ -37,12 +37,21 @@ async function getMovieByKeyword(req, res, next) {
     next(err);
   }
 }
+async function getGenres(req, res, next) {
+  try {
+    res.json(await moviesServices.getGenre(req.query));
+  } catch (err) {
+    console.error('Error while getting an account');
+    next(err);
+  }
+}
 
 module.exports = {
   getTrending,
   getByType,
   getMovieByGenre,
   getMovieByKeyword,
+  getGenres,
   // logIn,
   // update,
   // remove,
