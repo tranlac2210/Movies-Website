@@ -3,7 +3,7 @@ const moviesServices = require('../services/movie.service.js');
 // Get all movies
 async function getTrending(req, res, next) {
   try {
-    res.json(await moviesServices.getTrending());
+    res.json(await moviesServices.getTrending(req.query));
   } catch (err) {
     console.error('Error while geting accounts');
     next(err);

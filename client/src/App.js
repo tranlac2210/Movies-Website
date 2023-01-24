@@ -6,8 +6,8 @@ import { GerneContainer } from './components';
 function App() {
   return (
     <div className="App">
-      <Home />
       <SearchBox />
+      <Home />
       {/* <GerneContainer /> */}
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
