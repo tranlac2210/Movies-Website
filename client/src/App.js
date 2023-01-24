@@ -8,7 +8,7 @@ function App() {
     <div className="App">
       <Home />
       <SearchBox />
-      {/* <GerneContainer /> */}
+      <GerneContainer />
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>

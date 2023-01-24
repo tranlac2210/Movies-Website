@@ -13,4 +13,6 @@ router.get('/movie-genre', moviesController.getMovieByGenre);
 
 //Get: retrives movies from a key word
 router.get('/key-word', moviesController.getMovieByKeyword);
+
+router.get('/get-genre', moviesController.getGenres);
 module.exports = router;
