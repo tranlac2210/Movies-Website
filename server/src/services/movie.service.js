@@ -1,10 +1,11 @@
 const axios = require('axios');
 
 // Get trending movies of today
-async function getTrending() {
+async function getTrending(data) {
   // TEST URL: http://localhost:3001/movies/trending
+  const { page } = data;
   const movies = await axios.get(
-    `https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.API_KEY}`
+    `https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.API_KEY}&page=${page}`
   );
   try {
     return movies.data;

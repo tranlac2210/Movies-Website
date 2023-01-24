@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 //import data from "../data";
 import SearchButton from "./SearchButton";
@@ -9,6 +9,10 @@ import axios from "axios";
 import Pagination from "./pagination";
 //end pagination
 
+//useContext + useReducer package
+import {useSearchBoxContext} from '../context/searchbox_context'
+//end useContext + useReducer
+
 const SearchBox = () => {
   const [keyWord, setKeyWord] = useState("");
   const [currentKeyWord, setCurrentKeyWord] = useState("");
@@ -17,9 +21,14 @@ const SearchBox = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [totalResults, setTotalResults] = useState(0);
 
+  //useContext consumer 
+  const {changeKeyword} = useSearchBoxContext();
+  //end useContext
+
   const updateKeyWord = (e) => {
     const currentKeyWord = e.target.value;
-    setKeyWord(currentKeyWord);
+    changeKeyword(currentKeyWord);
+    // setKeyWord(currentKeyWord);
   };
 
   const fetchMovies = async (keyWord) => {
