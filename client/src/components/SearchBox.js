@@ -1,28 +1,28 @@
-import React, { useState, useEffect, useContext } from "react";
-import styled from "styled-components";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 //import data from "../data";
-import SearchButton from "./SearchButton";
-import { BiSearchAlt } from "react-icons/bi";
-import axios from "axios";
+import SearchButton from './SearchButton';
+import { BiSearchAlt } from 'react-icons/bi';
+import axios from 'axios';
 
 //pagination
-import Pagination from "./pagination";
+import Pagination from './pagination';
 //end pagination
 
 //useContext + useReducer package
-import {useSearchBoxContext} from '../context/searchbox_context'
+import { useSearchBoxContext } from '../context/searchbox_context';
 //end useContext + useReducer
 
 const SearchBox = () => {
-  const [keyWord, setKeyWord] = useState("");
-  const [currentKeyWord, setCurrentKeyWord] = useState("");
+  // const [keyWord, setKeyWord] = useState('');
+  const [currentKeyWord, setCurrentKeyWord] = useState('');
   const [searchMoviesResult, setSearchMoviesResult] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [totalResults, setTotalResults] = useState(0);
 
-  //useContext consumer 
-  const {changeKeyword} = useSearchBoxContext();
+  //useContext consumer
+  const { keyWord, changeKeyword } = useSearchBoxContext();
   //end useContext
 
   const updateKeyWord = (e) => {
@@ -60,10 +60,9 @@ const SearchBox = () => {
 
   //reset button (clearSearch)
   const resetSearch = async () => {
-    //const res = await axios.get(`/movies/trending`);
     setSearchMoviesResult([]);
-    setKeyWord("");
-    setCurrentKeyWord("");
+    // setKeyWord('');
+    setCurrentKeyWord('');
     setTotalPages(0);
     setTotalResults(0);
   };
@@ -71,7 +70,7 @@ const SearchBox = () => {
 
   //condition for <<,<,>,>>
   const checkTotalPages = () => {
-    if (keyWord !== "" && totalPages !== 0) {
+    if (keyWord !== '' && totalPages !== 0) {
       return (
         <>
           <Pagination
@@ -87,10 +86,10 @@ const SearchBox = () => {
 
   //condition for notes (search keyword,search result)
   const checkNotes = () => {
-    if (keyWord !== "" && totalPages !== 0) {
+    if (keyWord !== '' && totalPages !== 0) {
       return (
         <Notes>
-          <div className="notes">
+          <div className='notes'>
             <small> Search keyword: {keyWord}, </small>
             <small>total results: {totalResults}</small>
           </div>
@@ -104,21 +103,21 @@ const SearchBox = () => {
 
   return (
     <>
-      <Wrapper className="section-center">
+      <Wrapper className='section-center'>
         <form onSubmit={HandleSubmit}>
-          <div className="form-control">
+          <div className='form-control'>
             <BiSearchAlt />
             <input
-              type="text"
-              placeholder="Search ..."
-              className="searchBox"
+              type='text'
+              placeholder='Search ...'
+              className='searchBox'
               onChange={updateKeyWord}
-              value = {keyWord}
+              value={keyWord}
             />
             <SearchButton keyWord={keyWord} />
             <button
               onClick={resetSearch}
-              className={`${keyWord ? "" : "disable-search-button"}`}
+              className={`${keyWord ? '' : 'disable-search-button'}`}
             >
               Clear Search
             </button>
@@ -128,7 +127,7 @@ const SearchBox = () => {
       {checkNotes()}
       <div />
       {searchMoviesResult.map((movie) => (
-        <div key={movie.id} className="movie">
+        <div key={movie.id} className='movie'>
           {movie.name || movie.title}
         </div>
       ))}
