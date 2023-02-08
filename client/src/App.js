@@ -2,14 +2,16 @@ import './App.css';
 import { Home } from './pages';
 import { SearchBox } from './components';
 import { GerneContainer } from './components';
+import { Container } from '@mui/material';
 
 function App() {
   return (
     <div className='App'>
-      <SearchBox />
-      <Home />
-      {/* <GerneContainer /> */}
-      {/* <header className="App-header">
+      <Container>
+        <SearchBox />
+        <Home />
+        {/* <GerneContainer /> */}
+        {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -23,6 +25,7 @@ function App() {
           Learn React
         </a>
       </header> */}
+      </Container>
     </div>
   );
 }
