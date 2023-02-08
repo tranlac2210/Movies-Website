@@ -1,137 +1,154 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 //import data from "../data";
-import SearchButton from './SearchButton';
-import { BiSearchAlt } from 'react-icons/bi';
-import axios from 'axios';
+import SearchButton from "./SearchButton";
+import { BiSearchAlt } from "react-icons/bi";
+import axios from "axios";
 
 //pagination
-import Pagination from './pagination';
+import Pagination from "./pagination";
 //end pagination
 
 //useContext + useReducer package
-import { useSearchBoxContext } from '../context/searchbox_context';
+import { useSearchBoxContext } from "../context/searchbox_context";
 //end useContext + useReducer
 
 const SearchBox = () => {
   // const [keyWord, setKeyWord] = useState('');
-  const [currentKeyWord, setCurrentKeyWord] = useState('');
-  const [searchMoviesResult, setSearchMoviesResult] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const [totalResults, setTotalResults] = useState(0);
+  //const [currentKeyWord, setCurrentKeyWord] = useState("");
+  //const [currentPage, setCurrentPage] = useState(1);
+  //const [searchMoviesResult, setSearchMoviesResult] = useState([]);
+  // const [totalPages, setTotalPages] = useState(0);
+  // const [totalResults, setTotalResults] = useState(0);
 
   //useContext consumer
-  const { keyWord, changeKeyword } = useSearchBoxContext();
+
+  const {
+    keyWord,
+    currentPage,
+    currentKeyWord,
+    searchMoviesResult,
+    changeKeyword,
+    fetchMoviesByKeyword,
+    addChangeKeyword,
+    clearKeyword,
+  } = useSearchBoxContext();
   //end useContext
 
   const updateKeyWord = (e) => {
-    const currentKeyWord = e.target.value;
-    changeKeyword(currentKeyWord);
+    const tempKeyword = e.target.value;
+    changeKeyword(tempKeyword);
     // setKeyWord(currentKeyWord);
   };
 
-  const fetchMovies = async (keyWord) => {
-    const res = await axios.get(
-      `/movies/key-word?keyWord=${keyWord}&page=${currentPage}`
-    );
-    setSearchMoviesResult(res.data.results);
-    //setCurrentPage(res.data.page);
-    setTotalPages(res.data.total_pages);
-    setTotalResults(res.data.total_results);
-  };
+  // const fetchMovies = async (keyWord) => {
+  //   const res = await axios.get(
+  //     `/movies/key-word?keyWord=${keyWord}&page=${currentPage}`
+  //   );
+  //   //console.log(res);
+  //   fetchMoviesByKeyword(res.data.results);
+  //   // setTotalPages(res.data.total_pages);
+  //   // setTotalResults(res.data.total_results);
+  // };
 
-  const HandleSubmit = (e) => {
-    e.preventDefault();
-    setCurrentKeyWord(keyWord);
-    setCurrentPage(1);
-    fetchMovies(keyWord);
-  };
+  // const handleDefault = (e) => {
+  //   e.preventDefault();
+  // };
 
-  // Change page
-  const Paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  // const HandleSubmit = (e) => {
+  //   e.preventDefault();
+  //   addChangeKeyword(currentKeyWord, currentPage);
+  //   fetchMovies(keyWord);
+  // };
 
-  useEffect(() => {
-    fetchMovies(currentKeyWord);
-  }, [currentPage]);
+  // // Change page
+  // const Paginate = (pageNumber) => {
+  //   setCurrentPage(pageNumber);
+  // };
+
+  // useEffect(() => {
+  //   fetchMovies(currentKeyWord);
+  // }, [currentPage]);
   //end change page
 
   //reset button (clearSearch)
   const resetSearch = async () => {
-    setSearchMoviesResult([]);
+    // setSearchMoviesResult([]);
     // setKeyWord('');
-    setCurrentKeyWord('');
-    setTotalPages(0);
-    setTotalResults(0);
+    clearKeyword(currentKeyWord, keyWord, searchMoviesResult);
+    // setTotalPages(0);
+    // setTotalResults(0);
   };
   //end reset button
 
-  //condition for <<,<,>,>>
-  const checkTotalPages = () => {
-    if (keyWord !== '' && totalPages !== 0) {
-      return (
-        <>
-          <Pagination
-            totalPages={totalPages}
-            paginate={Paginate}
-            currentPagePag={currentPage}
-          />
-        </>
-      );
-    }
-  };
-  //end condition
+  // //condition for <<,<,>,>>
+  // const checkTotalPages = () => {
+  //   if (keyWord !== "" && totalPages !== 0) {
+  //     return (
+  //       <>
+  //         <Pagination
+  //           totalPages={totalPages}
+  //           paginate={Paginate}
+  //           currentPagePag={currentPage}
+  //         />
+  //       </>
+  //     );
+  //   }
+  // };
+  // //end condition
 
-  //condition for notes (search keyword,search result)
-  const checkNotes = () => {
-    if (keyWord !== '' && totalPages !== 0) {
-      return (
-        <Notes>
-          <div className='notes'>
-            <small> Search keyword: {keyWord}, </small>
-            <small>total results: {totalResults}</small>
-          </div>
-        </Notes>
-      );
-    }
-  };
-  //end condition
+  // //condition for notes (search keyword,search result)
+  // const checkNotes = () => {
+  //   if (keyWord !== "" && totalPages !== 0) {
+  //     return (
+  //       <Notes>
+  //         <div className="notes">
+  //           <small> Search keyword: {keyWord}, </small>
+  //           <small>total results: {totalResults}</small>
+  //         </div>
+  //       </Notes>
+  //     );
+  //   }
+  // };
+  // //end condition
 
   //end change Page
 
   return (
     <>
-      <Wrapper className='section-center'>
-        <form onSubmit={HandleSubmit}>
-          <div className='form-control'>
+      <Wrapper className="section-center">
+        {/* <form onSubmit={HandleSubmit}> */}
+        <form>
+          <div className="form-control">
             <BiSearchAlt />
             <input
-              type='text'
-              placeholder='Search ...'
-              className='searchBox'
+              type="text"
+              placeholder="Search ..."
+              className="searchBox"
               onChange={updateKeyWord}
               value={keyWord}
             />
-            <SearchButton keyWord={keyWord} />
+            <SearchButton
+              // keyWord={keyWord}
+              //searchMoviesResult={searchMoviesResult}
+            />
             <button
               onClick={resetSearch}
-              className={`${keyWord ? '' : 'disable-search-button'}`}
+              className={`${keyWord ? "" : "disable-search-button"}`}
             >
               Clear Search
             </button>
           </div>
         </form>
       </Wrapper>
-      {checkNotes()}
+      {/* {checkNotes()} */}
       <div />
       {searchMoviesResult.map((movie) => (
-        <div key={movie.id} className='movie'>
+        <div key={movie.id} className="movie">
           {movie.name || movie.title}
         </div>
       ))}
-      {checkTotalPages()}
+      {/* {checkTotalPages()} */}
     </>
   );
 };
