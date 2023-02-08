@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState } from 'react';
+import axios from 'axios';
 
 //useContext + useReducer package
-import { useSearchBoxContext } from "../context/searchbox_context";
+import { useSearchBoxContext } from '../context/searchbox_context';
 //end useContext + useReducer
 
 const SearchButton = () => {
@@ -29,11 +29,18 @@ const SearchButton = () => {
     // setTotalResults(res.data.total_results);
   };
 
-  const HandleSubmit = (e) => {
+  // const HandleSubmit = (e) => {
+  //   console.log('dfasdf');
+  //   e.preventDefault();
+  //   addChangeKeyword(currentKeyWord, currentPage, keyWord);
+  //   fetchMovies(keyWord);
+  //   console.log('b');
+  // };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    addChangeKeyword(currentKeyWord, currentPage, keyWord);
+    addChangeKeyword(currentKeyWord, currentPage);
     fetchMovies(keyWord);
-    console.log("b");
   };
 
   const resetSearch = async () => {
@@ -47,15 +54,15 @@ const SearchButton = () => {
   return (
     <div>
       <button
-        onSubmit={HandleSubmit}
-        className={`${keyWord ? "" : "disable-search-button"}`}
-        type="submit"
+        onClick={handleSubmit}
+        className={`${keyWord ? '' : 'disable-search-button'}`}
+        type='submit'
       >
         Search
       </button>
       <button
         onClick={resetSearch}
-        className={`${keyWord ? "" : "disable-search-button"}`}
+        className={`${keyWord ? '' : 'disable-search-button'}`}
       >
         Clear Search
       </button>
