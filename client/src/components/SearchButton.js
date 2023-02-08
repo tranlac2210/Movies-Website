@@ -1,13 +1,66 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
-const SearchButton = ({ keyWord }) => {
+//useContext + useReducer package
+import { useSearchBoxContext } from "../context/searchbox_context";
+//end useContext + useReducer
+
+const SearchButton = () => {
+  // const [searchMoviesResult, setSearchMoviesResult] = useState([]);
+
+  //useContext consumer
+  const {
+    keyWord,
+    currentPage,
+    currentKeyWord,
+    fetchMoviesByKeyword,
+    addChangeKeyword,
+    clearKeyword,
+  } = useSearchBoxContext();
+  //end useContext
+
+  const fetchMovies = async (keyWord) => {
+    const res = await axios.get(
+      `/movies/key-word?keyWord=${keyWord}&page=${currentPage}`
+    );
+    //console.log(res);
+    fetchMoviesByKeyword(res.data.results);
+    // setTotalPages(res.data.total_pages);
+    // setTotalResults(res.data.total_results);
+  };
+
+  const HandleSubmit = (e) => {
+    e.preventDefault();
+    addChangeKeyword(currentKeyWord, currentPage, keyWord);
+    fetchMovies(keyWord);
+    console.log("b");
+  };
+
+  const resetSearch = async () => {
+    //setSearchMoviesResult([]);
+    // setKeyWord('');
+    clearKeyword();
+    // setTotalPages(0);
+    // setTotalResults(0);
+  };
+
   return (
-    <button
-      className={`${keyWord ? "" : "disable-search-button"}`}
-      type="submit"
-    >
-      Search
-    </button>
+    <div>
+      <button
+        onSubmit={HandleSubmit}
+        className={`${keyWord ? "" : "disable-search-button"}`}
+        type="submit"
+      >
+        Search
+      </button>
+      <button
+        onClick={resetSearch}
+        className={`${keyWord ? "" : "disable-search-button"}`}
+      >
+        Clear Search
+      </button>
+      <div />
+    </div>
   );
 };
 
