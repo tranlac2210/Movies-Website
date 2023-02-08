@@ -22,30 +22,32 @@ const Home = () => {
     <Wrapper>
       <div>
         <span className='trendingToday'>Trending Today</span>
-        {movie.map((movies) => {
-          const { poster_path, title, name, first_air_date, 
-            release_date, media_type, vote_average} = movies;
-          return(
-            <div className='media' key={movies.id}>
-              <img
-                className='image'
-                src={`${img_300}/${poster_path}`} alt={title} 
-              />
-              <b className='title'>
-                {title || name}
-              </b>
-              <span className='subTitle'>
-                {media_type === "tv" ? "TV" : "Movie"}
-              </span>
-              <span className='subTitle'>
-                {release_date || first_air_date}
-              </span>
-              {/* <span className='vote'>
-                {vote_average}
-              </span> */}
-            </div>
-          )
-        })}
+        <div className='trending'>
+          {movie.map((movies) => {
+            const { poster_path, title, name, first_air_date, 
+              release_date, media_type, vote_average} = movies;
+            return(
+              <div className='media' key={movies.id}>
+                <img
+                  className='image'
+                  src={`${img_300}/${poster_path}`} alt={title} 
+                />
+                <b className='title'>
+                  {title || name}
+                </b>
+                <span className='subTitle'>
+                  {media_type === "tv" ? "TV" : "Movie"}
+                </span>
+                <span className='subTitle'>
+                  {release_date || first_air_date}
+                </span>
+                {/* <span className='vote'>
+                  {vote_average}
+                </span> */}
+              </div>
+            )
+          })}
+        </div>
       </div>
     </Wrapper>
   );
@@ -92,6 +94,23 @@ const Wrapper = styled.div`
     padding-bottom: 3px;
     padding: 0 2px;
     padding-bottom: 3px;
+  }
+
+  .trending {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  .trendingToday {
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    font-family: "Montserrat", sans-serif;
+    font-size: 2vw;
+    padding: 4px;
+    border-radius: 50px;
+    color: white;
   }
 `;
 
