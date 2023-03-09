@@ -14,23 +14,25 @@ const search_keyword_reducer = (state, action) => {
         keyWord: action.payload,
       };
     case FETCH_MOVIES_BY_KEYWORD:
-      console.log([...action.payload]);
-      return {
+      return {  
         ...state,
-        searchMoviesResult: [...action.payload],
+        totalResults: action.payload.totalResults,
+        searchMoviesResult: [...action.payload.searchMoviesResult],
       };
     case ADD_SEARCH_KEYWORD:
       return {
         ...state,
         currentKeyWord: state.keyWord,
-        currentPage: 1,
+        //currentPage: 1,
       };
     case CLEAR_SEARCH_KEYWORD:
       return {
         ...state,
-        currentKeyWord: "",
         keyWord: "",
+        currentKeyWord: "",
         searchMoviesResult: [],
+        currentPage: 1,
+        totalResults: -1,
       };
     default:
       throw new Error("Invalid action.");

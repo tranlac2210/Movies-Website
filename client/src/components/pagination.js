@@ -1,89 +1,90 @@
-import React, { useState, useReducer } from "react";
+import React from "react";
 import styled from "styled-components";
-import {
-  MdFirstPage,
-  MdNavigateBefore,
-  MdNavigateNext,
-  MdLastPage,
-} from "react-icons/md";
+import ReactPaginate from "react-paginate";
 
-const Pagination = ({ totalPages, paginate, currentPagePag }) => {
-  const pageNumber = [];
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumber.push(i);
+//useContext + useReducer package
+import { usePaginationContext } from "../context/pagination_context";
+import { useSearchBoxContext } from "../context/searchbox_context";
+//end the package
+
+const Pagination = () => {
+  //useContext consumer
+  const { totalPages, getCurrentPage, currentPage } = usePaginationContext();
+  const { totalResults } = useSearchBoxContext();
+
+  const handlePageChange = (e) => {
+    //console.log("&&" + currentPage);
+    console.log("hPChange", e.selected + 1);
+    getCurrentPage(e.selected + 1);
+  };
+
+  //console.log(totalResults);
+
+  if (totalResults !== 0) {
+    return (
+      <Pag>
+        <ReactPaginate
+          nextLabel=" >"
+          pageRangeDisplayed={3}
+          marginPagesDisplayed={2}
+          pageCount={totalPages}
+          previousLabel="<"
+          onPageChange={handlePageChange}
+          forcePage={currentPage - 1}
+          //onClick = {}
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          //previousClassName="page-item"
+          // previousLinkClassName="page-link"
+          // nextClassName="page-item"
+          // nextLinkClassName="page-link"
+          breakLabel="..."
+          // breakClassName="page-item"
+          // breakLinkClassName="page-link"
+          containerClassName="pagination"
+          activeClassName="active"
+          renderOnZeroPageCount={null}
+        />
+      </Pag>
+    );
   }
-
-  return (
-    <Nav>
-      <div className="pagination">
-        <button
-          onClick={() => paginate(1)}
-          className={`${currentPagePag === 1 ? "disable-button" : ""}`}
-        >
-          <MdFirstPage />
-        </button>
-        <button
-          onClick={() => paginate(currentPagePag - 1)}
-          className={`${currentPagePag === 1 ? "disable-button" : ""}`}
-        >
-          <MdNavigateBefore />
-        </button>
-        {pageNumber.map((number) => (
-          <button
-            onClick={() => paginate(number)}
-            key={number}
-            //href={`movies/key-words/page${number}`}
-            className={`${currentPagePag === number ? "active" : ""} `}
-            type="button"
-          >
-            {number}
-          </button>
-        ))}
-        <button
-          onClick={() => paginate(currentPagePag + 1)}
-          className={`${currentPagePag === totalPages ? "disable-button" : ""}`}
-        >
-          <MdNavigateNext />
-        </button>
-        <button
-          onClick={() => paginate(totalPages)}
-          className={`${currentPagePag === totalPages ? "disable-button" : ""}`}
-        >
-          <MdLastPage />
-        </button>
-      </div>
-    </Nav>
-  );
 };
 
 //styling
-const Nav = styled.div`
+const Pag = styled.div`
     .pagination {
         display:inline-block;
     };
-    .pagination button {
+    .pagination li {
+      float: left;
+    }
+    .pagination a {
         border: 1px solid #ddd;
         border-radius: 50%;
         color: black;
         float: left;
         margin: 10px 4px;
-        max-width: 43px;
+        max-width: 50;
         padding 8px 16px;
         text-decoration:none;
         text-align: center;
         transition: background-color 0.3s;
           
     }
-    .pagination button.active {
+    .pagination a:hover {
+      cursor: pointer;
+      } 
+      
+    .pagination  li.active a{
         background-color: #FF7F50 ;
         color: white;
-        border: 1px solid #FF7F50;
+        border: 1px solid #c35700;
         border-radius: 50% ;
     }
-    .pagination button:hover:not(.active) {
+    .pagination li:hover:not(.active) a{
         background-color: 	#FFE4B5;
     }
-    .disable-button {
+    .disable-a {
         pointer-events: none;
         opacity: 0.4;
       }
