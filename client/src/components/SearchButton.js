@@ -1,68 +1,78 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useEffect } from "react";
+import axios from "axios";
 
 //useContext + useReducer package
-import { useSearchBoxContext } from '../context/searchbox_context';
+import { useSearchBoxContext } from "../context/searchbox_context";
+import { usePaginationContext } from "../context/pagination_context";
 //end useContext + useReducer
 
 const SearchButton = () => {
-  // const [searchMoviesResult, setSearchMoviesResult] = useState([]);
-
   //useContext consumer
   const {
     keyWord,
-    currentPage,
     currentKeyWord,
     fetchMoviesByKeyword,
     addChangeKeyword,
     clearKeyword,
   } = useSearchBoxContext();
+
+  const { getTotalPages, currentPage, getCurrentPage } = usePaginationContext();
+
   //end useContext
 
   const fetchMovies = async (keyWord) => {
+    //getCurrentPage(1);
+    console.log("fMovies", currentPage);
     const res = await axios.get(
       `/movies/key-word?keyWord=${keyWord}&page=${currentPage}`
     );
     //console.log(res);
-    fetchMoviesByKeyword(res.data.results);
-    // setTotalPages(res.data.total_pages);
-    // setTotalResults(res.data.total_results);
+    //console.log(res.data.page +  " & " + currentPage);
+    fetchMoviesByKeyword(res.data.total_results, res.data.results);
+    getTotalPages(res.data.total_pages);
+    
   };
 
-  // const HandleSubmit = (e) => {
-  //   console.log('dfasdf');
-  //   e.preventDefault();
-  //   addChangeKeyword(currentKeyWord, currentPage, keyWord);
-  //   fetchMovies(keyWord);
-  //   console.log('b');
-  // };
+  useEffect(() => {
+    if (currentKeyWord !== "") {
+      console.log("inside useEffect");
+      fetchMovies(currentKeyWord);
+    }
+  }, [currentKeyWord,currentPage]);
 
-  const handleSubmit = (e) => {
+  // useEffect(()=>{
+  //   fetchMovies(currentKeyWord);
+  // },[currentPage]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    addChangeKeyword(currentKeyWord, currentPage);
-    fetchMovies(keyWord);
+    console.log("hSubmit", currentPage);
+    getCurrentPage(1);
+    addChangeKeyword(currentKeyWord);
+    console.log("inside hSubmit")
+    //fetchMovies(keyWord);
+    
   };
 
-  const resetSearch = async () => {
-    //setSearchMoviesResult([]);
-    // setKeyWord('');
+  const resetSearch = async (e) => {
+    e.preventDefault();
     clearKeyword();
-    // setTotalPages(0);
-    // setTotalResults(0);
+    getTotalPages(0);
+    getCurrentPage(1);
   };
 
   return (
     <div>
       <button
         onClick={handleSubmit}
-        className={`${keyWord ? '' : 'disable-search-button'}`}
-        type='submit'
+        className={`${keyWord ? "" : "disable-search-button"}`}
+        type="submit"
       >
         Search
       </button>
       <button
         onClick={resetSearch}
-        className={`${keyWord ? '' : 'disable-search-button'}`}
+        className={`${keyWord ? "" : "disable-search-button"}`}
       >
         Clear Search
       </button>

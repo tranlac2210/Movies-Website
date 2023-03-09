@@ -11,7 +11,8 @@ const initialState = {
   keyWord: "",
   currentKeyWord: "",
   searchMoviesResult: [],
-  currentPage: 1,
+  //currentPage: 1,
+  totalResults: -1,
 };
 
 const SearchboxContext = React.createContext();
@@ -23,21 +24,16 @@ export const SearchboxProvider = ({ children }) => {
     // dispatch({ type: SEARCH_KEYWORD, payload: {name: 'Giai', 'phone':} });
   };
 
-  const fetchMoviesByKeyword = (searchMoviesResult) => {
+  const fetchMoviesByKeyword = (totalResults, searchMoviesResult) => {
     dispatch({
       type: FETCH_MOVIES_BY_KEYWORD,
-      payload:  searchMoviesResult ,
+      payload: { totalResults, searchMoviesResult }
     });
   };
 
-  const addChangeKeyword = (
-    currentKeyWord,
-    currentPage,
-    searchMoviesResult
-  ) => {
+  const addChangeKeyword = () => {
     dispatch({
       type: ADD_SEARCH_KEYWORD,
-      payload: { currentKeyWord, currentPage, searchMoviesResult },
     });
   };
 
@@ -61,7 +57,7 @@ export const SearchboxProvider = ({ children }) => {
     </SearchboxContext.Provider>
   );
 };
-// export default SearchboxProvider;
+// export default SearchboxProvider
 export const useSearchBoxContext = () => {
   return useContext(SearchboxContext);
 };

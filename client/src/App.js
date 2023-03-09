@@ -1,15 +1,17 @@
-import './App.css';
-import { Home } from './pages';
-import { SearchBox } from './components';
-import { GerneContainer } from './components';
-import { Container } from '@mui/material';
+import "./App.css";
+import { Home } from "./pages";
+import { SearchBox } from "./components";
+import { GerneContainer } from "./components";
+import { Container } from "@mui/material";
+import Pagination from "./components/pagination";
 
 function App() {
   return (
-    <div className='App'>
+    <div className="App">
       <Container>
         <SearchBox />
-        <Home />
+        
+        {/*<Home />*/}
         {/* <GerneContainer /> */}
         {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
@@ -25,6 +27,7 @@ function App() {
           Learn React
         </a>
       </header> */}
+        <Pagination />
       </Container>
     </div>
   );
