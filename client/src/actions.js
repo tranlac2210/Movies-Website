@@ -1,0 +1,9 @@
+//searchbar and search box
+export const SEARCH_KEYWORD = "SEARCH_KEYWORD";
+export const ADD_SEARCH_KEYWORD = "ADD_SEARCH_KEYWORD";
+export const CLEAR_SEARCH_KEYWORD = "CLEAR_SEARCH_KEYWORD";
+export const FETCH_MOVIES_BY_KEYWORD = "FETCH_MOVIES_BY_KEYWORD";
+
+//pagination
+export const GET_TOTAL_PAGES = "GET_TOTAL_PAGES";
+export const GET_CURRENT_PAGE = "GET_CURRENT_PAGE";
