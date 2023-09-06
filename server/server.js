@@ -4,7 +4,6 @@ const moviesRouter = require('./src/routes/movie.route');
 const PORT = process.env.PORT || 3001;
 const dotenv = require('dotenv');
 const app = express();
-
 const { auth, requiresAuth } = require('express-openid-connect'); // express-open-id connect package
 const router = require('express').Router();
 
@@ -92,6 +91,15 @@ app.get('/movies', (req, res) => {
 //   //res.json(search(data1).splice(0,5));
 // });
 //end code by Bo
+
+
+// // Routes
+// app.get('/', (req, res) => {
+//   res.json({ message: 'Hello from server!' });
+// });
+
+// // app.use(Router)
+// app.use('/movies', moviesRouter);
 
 // Server
 app.listen(PORT, () => {
